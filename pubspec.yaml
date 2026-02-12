@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   # 轮播图插件
   carousel_slider: ^5.1.2
+  dio: ^5.9.1
 
 dev_dependencies:
   flutter_test:

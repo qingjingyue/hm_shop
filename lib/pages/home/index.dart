@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hm_shop/api/home.dart';
 import 'package:hm_shop/components/home/HmCategory.dart';
 import 'package:hm_shop/components/home/HmHot.dart';
 import 'package:hm_shop/components/home/HmMoreList.dart';
@@ -14,20 +15,12 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final List<BannerItem> _bannerList = [
-    BannerItem(
-      id: "1",
-      imgUrl: "https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meituan/1.jpg",
-    ),
-    BannerItem(
-      id: "2",
-      imgUrl: "https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meituan/2.jpg",
-    ),
-    BannerItem(
-      id: "3",
-      imgUrl: "https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meituan/3.jpg",
-    ),
-  ];
+  late List<BannerItem> _bannerList;
+
+  void _getBannerList() async {
+    _bannerList = await getBannerListAPI();
+    setState(() {});
+  }
 
   /// 获取滚动子组件
   List<Widget> _getScrollChildren() {
@@ -60,6 +53,13 @@ class _HomeViewState extends State<HomeView> {
       // 更多
       HmMoreList(),
     ];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // 初始化轮播图列表
+    _getBannerList();
   }
 
   @override
