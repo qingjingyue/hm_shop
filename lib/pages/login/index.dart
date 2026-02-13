@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hm_shop/api/user.dart';
 import 'package:hm_shop/stores/TokenManager.dart';
 import 'package:hm_shop/types/user.dart';
+import 'package:hm_shop/utils/LoadingDialog.dart';
 import 'package:hm_shop/utils/ToastUtils.dart';
 
 import '../../stores/UserController.dart' show UserController;
@@ -85,6 +86,8 @@ class _LoginPageState extends State<LoginPage> {
   /// 登录
   Future<void> _login() async {
     try {
+      // 显示加载弹窗
+      LoadingDialog.show(context, msg: '登录中...');
       // 构建登录参数
       final Map<String, dynamic> params = {
         "account": _phoneController.text,
@@ -101,6 +104,9 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pop(context);
     } catch (e) {
       ToastUtils.showToast(context, (e as DioException).message);
+    } finally {
+      // 隐藏加载弹窗
+      LoadingDialog.hide(context);
     }
   }
 

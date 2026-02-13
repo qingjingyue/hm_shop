@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:hm_shop/api/mine.dart';
 import 'package:hm_shop/components/home/HmMoreList.dart';
 import 'package:hm_shop/components/mine/HmGuess.dart';
+import 'package:hm_shop/stores/TokenManager.dart';
 import 'package:hm_shop/stores/UserController.dart';
 import 'package:hm_shop/types/home.dart';
+import 'package:hm_shop/types/user.dart';
 
 class MineView extends StatefulWidget {
   const MineView({super.key});
@@ -15,6 +17,41 @@ class MineView extends StatefulWidget {
 
 class _MineViewState extends State<MineView> {
   final UserController _userController = Get.find<UserController>();
+
+  Widget _getLogout() {
+    return GestureDetector(
+      onTap: () {
+        // 弹出确认框
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('提示'),
+            content: const Text('确认退出登录吗?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('取消'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  // 删除用户信息和token
+                  await tokenManager.removeToken();
+                  _userController.updateUserInfo(UserInfo.fromJSON({}));
+                  Navigator.pop(context);
+                },
+                child: const Text('确认'),
+              ),
+            ],
+          ),
+        );
+      },
+      child: Text(
+        '退出登录',
+        textAlign: TextAlign.right,
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+      ),
+    );
+  }
 
   Widget _buildHeader() {
     return Container(
@@ -61,6 +98,13 @@ class _MineViewState extends State<MineView> {
                   ),
                 ),
               ],
+            ),
+          ),
+          Expanded(
+            child: Obx(
+              () => _userController.user.value.id.isEmpty
+                  ? Text("")
+                  : _getLogout(),
             ),
           ),
         ],
