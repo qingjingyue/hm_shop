@@ -48,3 +48,17 @@ Future<List<GoodDetailItem>> getRecommendListAPI(
       .map((item) => GoodDetailItem.formJson(item as Map<String, dynamic>))
       .toList();
 }
+
+/// 猜你喜欢列表
+/// @param:
+///   - page: 页码
+///   - pageSize: 每页数量
+Future<GoodDetailsItems> getGuessLikeListAPI(
+  Map<String, dynamic> params,
+) async {
+  final dynamic data = await dioRequest.get(
+    HttpConstants.GUESS_LIST,
+    params: params,
+  );
+  return GoodDetailsItems.formJson(data as Map<String, dynamic>);
+}

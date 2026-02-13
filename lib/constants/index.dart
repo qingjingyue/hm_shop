@@ -29,4 +29,7 @@ class HttpConstants {
 
   /// 更多推荐列表
   static const String RECOMMEND_LIST = "/home/recommend";
+
+  /// 猜你喜欢列表
+  static const String GUESS_LIST = "/home/goods/guessLike";
 }

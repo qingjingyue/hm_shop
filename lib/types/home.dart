@@ -161,3 +161,32 @@ class GoodDetailItem extends Good {
     );
   }
 }
+
+/// 猜你喜欢数据模型
+class GoodDetailsItems {
+  int counts;
+  int pageSize;
+  int pages;
+  int page;
+  List<GoodDetailItem> items;
+
+  GoodDetailsItems({
+    required this.counts,
+    required this.pageSize,
+    required this.pages,
+    required this.page,
+    required this.items,
+  });
+
+  factory GoodDetailsItems.formJson(Map<String, dynamic> json) {
+    return GoodDetailsItems(
+      counts: json["counts"] ?? 0,
+      pageSize: json["pageSize"] ?? 0,
+      pages: json["pages"] ?? 0,
+      page: json["page"] ?? 0,
+      items: (json["items"] as List)
+          .map((item) => GoodDetailItem.formJson(item as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
