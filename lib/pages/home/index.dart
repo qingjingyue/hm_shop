@@ -15,8 +15,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  late List<BannerItem> _bannerList;
-  late List<CategoryItem> _categoryList;
+  /// 轮播图列表
+  List<BannerItem> _bannerList = [];
 
   /// 获取轮播图列表
   void _getBannerList() async {
@@ -24,9 +24,48 @@ class _HomeViewState extends State<HomeView> {
     setState(() {});
   }
 
+  /// 分类列表
+  List<CategoryItem> _categoryList = [];
+
   /// 获取分类列表
   void _getCategoryList() async {
     _categoryList = await getCategoryListAPI();
+    setState(() {});
+  }
+
+  /// 特惠推荐
+  Product _product = Product(id: "", title: "", subTypes: []);
+
+  /// 获取特惠推荐
+  void _getProduct() async {
+    _product = await getProductListAPI();
+    setState(() {});
+  }
+
+  /// 热榜推荐
+  Product _inVogue = Product(id: "", title: "", subTypes: []);
+
+  /// 获取热榜推荐
+  void _getInVogue() async {
+    _inVogue = await getInVogueListAPI();
+    setState(() {});
+  }
+
+  /// 一站式推荐
+  Product _oneStop = Product(id: "", title: "", subTypes: []);
+
+  /// 获取一站式推荐
+  void _getOneStop() async {
+    _oneStop = await getOneStopListAPI();
+    setState(() {});
+  }
+
+  // 更多推荐列表
+  List<GoodDetailItem> _recommendList = [];
+
+  // 获取更多推荐列表
+  void _getRecommendList() async {
+    _recommendList = await getRecommendListAPI({"limit": 10});
     setState(() {});
   }
 
@@ -37,6 +76,14 @@ class _HomeViewState extends State<HomeView> {
     _getBannerList();
     // 初始化分类列表
     _getCategoryList();
+    // 初始化特惠推荐
+    _getProduct();
+    // 初始化热榜推荐
+    _getInVogue();
+    // 初始化一站式推荐
+    _getOneStop();
+    // 初始化推荐列表
+    _getRecommendList();
   }
 
   /// 获取滚动子组件
@@ -50,7 +97,7 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: HmCategory(categoryList: _categoryList)),
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       // 推荐
-      SliverToBoxAdapter(child: HmSuggestion()),
+      SliverToBoxAdapter(child: HmSuggestion(product: _product)),
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       // 爆款
       SliverToBoxAdapter(
@@ -59,16 +106,20 @@ class _HomeViewState extends State<HomeView> {
           child: Flex(
             direction: Axis.horizontal,
             children: [
-              Expanded(child: HmHot()),
+              Expanded(
+                child: HmHot(product: _inVogue, type: "hot"),
+              ),
               SizedBox(width: 10),
-              Expanded(child: HmHot()),
+              Expanded(
+                child: HmHot(product: _oneStop, type: "step"),
+              ),
             ],
           ),
         ),
       ),
       SliverToBoxAdapter(child: SizedBox(height: 10)),
-      // 更多
-      HmMoreList(),
+      // 更多, 无限滚动列表
+      HmMoreList(recommendList: _recommendList),
     ];
   }
 

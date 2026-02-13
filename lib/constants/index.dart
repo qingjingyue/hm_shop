@@ -1,5 +1,4 @@
 /// 全局常量
-
 class GlobalConstants {
   /// 后端接口基础URL
   static const String BASE_URL = "https://meikou-api.itheima.net";
@@ -18,4 +17,16 @@ class HttpConstants {
 
   /// 分类列表
   static const String CATEGORY_LIST = "/home/category/head";
+
+  /// 特惠推荐
+  static const String PRODUCT_LIST = "/hot/preference";
+
+  /// 热榜推荐地址
+  static const String IN_VOGUE_LIST = "/hot/inVogue";
+
+  /// 一站式推荐地址
+  static const String ONE_STOP_LIST = "/hot/oneStop";
+
+  /// 更多推荐列表
+  static const String RECOMMEND_LIST = "/home/recommend";
 }
