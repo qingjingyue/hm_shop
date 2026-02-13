@@ -16,10 +16,27 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   late List<BannerItem> _bannerList;
+  late List<CategoryItem> _categoryList;
 
+  /// 获取轮播图列表
   void _getBannerList() async {
     _bannerList = await getBannerListAPI();
     setState(() {});
+  }
+
+  /// 获取分类列表
+  void _getCategoryList() async {
+    _categoryList = await getCategoryListAPI();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // 初始化轮播图列表
+    _getBannerList();
+    // 初始化分类列表
+    _getCategoryList();
   }
 
   /// 获取滚动子组件
@@ -30,7 +47,7 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: HmSlider(bannerList: _bannerList)),
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       // 分类
-      SliverToBoxAdapter(child: HmCategory()),
+      SliverToBoxAdapter(child: HmCategory(categoryList: _categoryList)),
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       // 推荐
       SliverToBoxAdapter(child: HmSuggestion()),
@@ -53,13 +70,6 @@ class _HomeViewState extends State<HomeView> {
       // 更多
       HmMoreList(),
     ];
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // 初始化轮播图列表
-    _getBannerList();
   }
 
   @override

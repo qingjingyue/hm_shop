@@ -1,4 +1,5 @@
 /// 全局常量
+
 class GlobalConstants {
   /// 后端接口基础URL
   static const String BASE_URL = "https://meikou-api.itheima.net";
@@ -14,4 +15,7 @@ class GlobalConstants {
 class HttpConstants {
   /// 轮播图列表
   static const String BANNER_LIST = "/home/banner";
+
+  /// 分类列表
+  static const String CATEGORY_LIST = "/home/category/head";
 }

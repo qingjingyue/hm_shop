@@ -6,6 +6,14 @@ import 'package:hm_shop/utils/DioRequest.dart';
 Future<List<BannerItem>> getBannerListAPI() async {
   final List<dynamic> data = await dioRequest.get(HttpConstants.BANNER_LIST);
   return data
-      .map((item) => BannerItem.fromJson(item as Map<String, dynamic>))
+      .map((item) => BannerItem.formJson(item as Map<String, dynamic>))
+      .toList();
+}
+
+/// 获取分类列表
+Future<List<CategoryItem>> getCategoryListAPI() async {
+  final List<dynamic> data = await dioRequest.get(HttpConstants.CATEGORY_LIST);
+  return data
+      .map((item) => CategoryItem.formJson(item as Map<String, dynamic>))
       .toList();
 }
