@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hm_shop/api/home.dart';
+import 'package:get/get.dart';
+import 'package:hm_shop/api/mine.dart';
 import 'package:hm_shop/components/home/HmMoreList.dart';
 import 'package:hm_shop/components/mine/HmGuess.dart';
+import 'package:hm_shop/stores/UserController.dart';
 import 'package:hm_shop/types/home.dart';
 
 class MineView extends StatefulWidget {
@@ -12,6 +14,8 @@ class MineView extends StatefulWidget {
 }
 
 class _MineViewState extends State<MineView> {
+  final UserController _userController = Get.find<UserController>();
+
   Widget _buildHeader() {
     return Container(
       decoration: BoxDecoration(
@@ -24,23 +28,36 @@ class _MineViewState extends State<MineView> {
       padding: const EdgeInsets.only(left: 20, right: 40, top: 80, bottom: 20),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 26,
-            backgroundImage: const AssetImage('lib/assets/goods_avatar.png'),
-            backgroundColor: Colors.white,
+          Obx(
+            () => CircleAvatar(
+              radius: 26,
+              backgroundImage: _userController.user.value.avatar.isEmpty
+                  ? AssetImage('lib/assets/goods_avatar.png')
+                  : NetworkImage(_userController.user.value.avatar),
+              backgroundColor: Colors.white,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/login');
-                  },
-                  child: Text(
-                    '立即登录',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                Obx(
+                  () => GestureDetector(
+                    onTap: () {
+                      if (_userController.user.value.id.isEmpty) {
+                        Navigator.pushNamed(context, '/login');
+                      }
+                    },
+                    child: Text(
+                      _userController.user.value.id.isEmpty
+                          ? '立即登录'
+                          : _userController.user.value.account,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ],

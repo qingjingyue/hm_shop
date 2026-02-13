@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hm_shop/constants/index.dart';
+import 'package:hm_shop/stores/TokenManager.dart';
 
 /// 基于Dio进行二次封装的请求类
 class DioRequest {
@@ -19,7 +20,12 @@ class DioRequest {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          // 在发送请求之前做一些事情
+          // 从本地存储中获取token
+          String token = tokenManager.getToken();
+          if (token.isNotEmpty) {
+            // 携带token
+            options.headers["Authorization"] = "Bearer $token";
+          }
           return handler.next(options);
         },
         onResponse: (response, handler) {
@@ -34,7 +40,13 @@ class DioRequest {
         },
         onError: (e, handler) {
           // 在发生错误之前做一些事情
-          return handler.reject(e);
+          // return handler.reject(e);
+          return handler.reject(
+            DioException(
+              requestOptions: e.requestOptions,
+              message: e.response?.data?["msg"] ?? "加载数据异常",
+            ),
+          );
         },
       ),
     );
@@ -46,17 +58,24 @@ class DioRequest {
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
       // 处理业务失败响应
       if (data["code"] != GlobalConstants.SUCCESS_CODE) {
-        throw Exception(data["msg"] ?? "加载数据异常");
+        throw DioException(
+          requestOptions: response.requestOptions,
+          message: data["msg"] ?? "加载数据异常",
+        );
       }
       // 处理业务成功响应
       return data["result"];
     } catch (e) {
-      throw Exception(e);
+      rethrow;
     }
   }
 
   Future<dynamic> get(String url, {Map<String, dynamic>? params}) {
     return _handleResponse(_dio.get(url, queryParameters: params));
+  }
+
+  Future<dynamic> post(String url, {Map<String, dynamic>? data}) {
+    return _handleResponse(_dio.post(url, data: data));
   }
 }
 

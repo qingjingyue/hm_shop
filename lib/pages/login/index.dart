@@ -1,5 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hm_shop/api/user.dart';
+import 'package:hm_shop/stores/TokenManager.dart';
+import 'package:hm_shop/types/user.dart';
 import 'package:hm_shop/utils/ToastUtils.dart';
+
+import '../../stores/UserController.dart' show UserController;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,8 +16,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController _phoneController = TextEditingController(); // 账号控制器
-  TextEditingController _codeController = TextEditingController(); // 密码控制器
+  final TextEditingController _phoneController =
+      TextEditingController(); // 账号控制器
+  final TextEditingController _codeController =
+      TextEditingController(); // 密码控制器
+  final UserController _userController = Get.find<UserController>();
+
   // 用户账号Widget
   Widget _buildPhoneTextField() {
     return TextFormField(
@@ -28,7 +39,8 @@ class _LoginPageState extends State<LoginPage> {
       },
       controller: _phoneController,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(left: 20), // 内容内边距
+        contentPadding: EdgeInsets.only(left: 20),
+        // 内容内边距
         hintText: "请输入账号",
         fillColor: const Color.fromRGBO(243, 243, 243, 1),
         filled: true,
@@ -57,7 +69,8 @@ class _LoginPageState extends State<LoginPage> {
       controller: _codeController,
       obscureText: true,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(left: 20), // 内容内边距
+        contentPadding: EdgeInsets.only(left: 20),
+        // 内容内边距
         hintText: "请输入密码",
         fillColor: const Color.fromRGBO(243, 243, 243, 1),
         filled: true,
@@ -67,6 +80,28 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  /// 登录
+  Future<void> _login() async {
+    try {
+      // 构建登录参数
+      final Map<String, dynamic> params = {
+        "account": _phoneController.text,
+        "password": _codeController.text,
+      };
+      // 调用登录API
+      final UserInfo userInfo = await loginAPI(params);
+      ToastUtils.showToast(context, "登录成功");
+      // 登录成功后，更新用户信息
+      _userController.updateUserInfo(userInfo);
+      // 登录成功后，保存token
+      tokenManager.setToken(userInfo.token);
+      // 登录成功后，返回上一页
+      Navigator.pop(context);
+    } catch (e) {
+      ToastUtils.showToast(context, (e as DioException).message);
+    }
   }
 
   // 登录按钮Widget
@@ -86,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
             return;
           }
           // 登录
-          ToastUtils.showToast(context, "登录成功");
+          _login();
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.black,
@@ -100,6 +135,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   bool _isChecked = false;
+
   // 勾选Widget
   Widget _buildCheckbox() {
     return Row(

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hm_shop/api/user.dart';
 import 'package:hm_shop/pages/cart/index.dart';
 import 'package:hm_shop/pages/category/index.dart';
 import 'package:hm_shop/pages/home/index.dart';
 import 'package:hm_shop/pages/mine/index.dart';
+import 'package:hm_shop/stores/TokenManager.dart';
+import 'package:hm_shop/stores/UserController.dart';
+import 'package:hm_shop/types/user.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -57,6 +62,22 @@ class _MainPageState extends State<MainPage> {
       const CartView(),
       const MineView(),
     ];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // 初始化时获取用户信息
+    _initUser();
+  }
+
+  final UserController _userController = Get.put(UserController());
+
+  // 初始化用户信息
+  Future<void> _initUser() async {
+    await tokenManager.init();
+    UserInfo userInfo = await getUserInfoAPI();
+    _userController.updateUserInfo(userInfo);
   }
 
   @override
