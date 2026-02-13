@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 
 class ToastUtils {
+  static bool _isShow = false;
+
   static void showToast(BuildContext context, String? msg) {
+    if (_isShow) {
+      return;
+    }
+    // 显示Toast
+    _isShow = true;
+    // 3秒后隐藏
+    Future.delayed(Duration(seconds: 3), () {
+      _isShow = false;
+    });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        width: 120,
+        width: 180,
         shape: RoundedRectangleBorder(
           // 圆角
           borderRadius: BorderRadius.circular(40),
