@@ -15,7 +15,7 @@ class _HmCategoryState extends State<HmCategory> {
   Widget build(BuildContext context) {
     // 返回一个横向滚动的组件
     return SizedBox(
-      height: 100,
+      height: 80,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: widget.categoryList.length,
@@ -23,7 +23,7 @@ class _HmCategoryState extends State<HmCategory> {
           final category = widget.categoryList[index];
           return Container(
             width: 80,
-            height: 100,
+            // height: 80,
             margin: EdgeInsets.symmetric(horizontal: 10),
             alignment: Alignment.center,
             decoration: BoxDecoration(

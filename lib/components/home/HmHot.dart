@@ -39,13 +39,13 @@ class _HmHotState extends State<HmHot> {
                 child: Image.network(
                   item.picture,
                   // width: 80,
-                  height: 100,
+                  height: 80,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return Image.asset(
                       "lib/assets/home_cmd_inner.png",
                       // width: 80,
-                      height: 100,
+                      height: 80,
                       fit: BoxFit.cover,
                     );
                   },
@@ -81,7 +81,7 @@ class _HmHotState extends State<HmHot> {
         Text(
           widget.type == "step" ? "精心优选" : "最受欢迎",
           style: TextStyle(
-            fontSize: 8,
+            fontSize: 10,
             color: const Color.fromARGB(255, 124, 63, 58),
           ),
         ),
@@ -92,10 +92,10 @@ class _HmHotState extends State<HmHot> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: 4),
       child: Container(
         alignment: Alignment.center,
-        padding: EdgeInsets.all(12),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: widget.type == "step"
@@ -108,7 +108,7 @@ class _HmHotState extends State<HmHot> {
             _buildHeader(),
             SizedBox(height: 10),
             Row(
-              spacing: 10,
+              spacing: 4,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: _getChildrenList(),
             ),

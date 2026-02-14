@@ -89,7 +89,7 @@ class _HmMoreListState extends State<HmMoreList> {
           SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
+            crossAxisSpacing: 4,
             childAspectRatio: 0.7,
           ),
       itemBuilder: (BuildContext context, int index) {

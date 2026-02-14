@@ -34,7 +34,7 @@ class _HmSliderState extends State<HmSlider> {
         );
       }).toList(),
       options: CarouselOptions(
-        height: 300,
+        height: 200,
         // 图片与屏幕的宽度比例
         viewportFraction: 1,
         // 自动播放

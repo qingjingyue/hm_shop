@@ -155,14 +155,14 @@ class _HomeViewState extends State<HomeView> {
       // 爆款
       SliverToBoxAdapter(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 2),
           child: Flex(
             direction: Axis.horizontal,
             children: [
               Expanded(
                 child: HmHot(product: _inVogue, type: "hot"),
               ),
-              SizedBox(width: 10),
+              SizedBox(width: 2),
               Expanded(
                 child: HmHot(product: _oneStop, type: "step"),
               ),

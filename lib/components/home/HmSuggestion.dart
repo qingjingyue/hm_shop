@@ -39,12 +39,13 @@ class _HmSuggestionState extends State<HmSuggestion> {
 
   Widget _buildLeft() {
     return Container(
-      width: 100,
-      height: 140,
+      width: 80,
+      height: 100,
       margin: EdgeInsets.symmetric(horizontal: 10),
       padding: EdgeInsets.all(12),
       alignment: Alignment.center,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
         image: DecorationImage(
           image: AssetImage("lib/assets/home_cmd_inner.png"),
           fit: BoxFit.cover,
@@ -73,13 +74,13 @@ class _HmSuggestionState extends State<HmSuggestion> {
                   child: Image.network(
                     item.picture,
                     // width: 100,
-                    height: 140,
+                    height: 80,
                     fit: BoxFit.cover,
                     // 图片加载失败时的回调
                     errorBuilder: (context, error, stackTrace) => Image.asset(
                       "lib/assets/home_cmd_inner.png",
                       // width: 100,
-                      height: 140,
+                      height: 80,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -93,7 +94,7 @@ class _HmSuggestionState extends State<HmSuggestion> {
                   ),
                   child: Text(
                     "¥${item.price}",
-                    style: TextStyle(fontSize: 10, color: Colors.white),
+                    style: TextStyle(fontSize: 8, color: Colors.white),
                   ),
                 ),
               ],
@@ -108,7 +109,7 @@ class _HmSuggestionState extends State<HmSuggestion> {
     return Container(
       // height: 300,
       margin: EdgeInsets.symmetric(horizontal: 10),
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(8),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         image: DecorationImage(
