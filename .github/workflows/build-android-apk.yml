@@ -1,0 +1,64 @@
+name: Build Release Android APK
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    name: Build Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.38.9"
+          channel: "stable"
+          cache: true
+
+      - name: Verify Flutter installation
+        run: flutter --version
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build Release APK
+        run: flutter build apk --release
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 30
+
+      - name: Get APK info
+        id: apk-info
+        run: |
+          APK_PATH="build/app/outputs/flutter-apk/app-release.apk"
+          APK_SIZE=$(du -h "$APK_PATH" | cut -f1)
+          echo "apk_size=$APK_SIZE" >> $GITHUB_OUTPUT
+          echo "APK Size: $APK_SIZE"
+
+      - name: Create build summary
+        run: |
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Build Status**: Success" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📦 **APK Size**: ${{ steps.apk-info.outputs.apk_size }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📱 **Flutter Version**: $(flutter --version | head -n 1)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 **Artifact**: Download from the Actions artifacts section" >> $GITHUB_STEP_SUMMARY
