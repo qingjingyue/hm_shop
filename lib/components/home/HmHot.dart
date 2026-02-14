@@ -73,15 +73,15 @@ class _HmHotState extends State<HmHot> {
           widget.type == "step" ? "一站买全" : "爆款推荐",
           style: TextStyle(
             color: const Color.fromARGB(255, 86, 24, 20),
-            fontSize: 18,
+            fontSize: 14,
             fontWeight: FontWeight.w700,
           ),
         ),
-        SizedBox(width: 10),
+        SizedBox(width: 8),
         Text(
           widget.type == "step" ? "精心优选" : "最受欢迎",
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 8,
             color: const Color.fromARGB(255, 124, 63, 58),
           ),
         ),

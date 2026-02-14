@@ -83,11 +83,8 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // SafeArea避开安全区组件
-      body: SafeArea(
-        // IndexedStack根据当前索引显示对应的页面
-        child: IndexedStack(index: _currentIndex, children: _getChildren()),
-      ),
+      // IndexedStack根据当前索引显示对应的页面
+      body: IndexedStack(index: _currentIndex, children: _getChildren()),
       // 实现底部导航栏切换
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) => setState(() => _currentIndex = index),

@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hm_shop/api/user.dart';
 import 'package:hm_shop/stores/TokenManager.dart';
+import 'package:hm_shop/stores/UserController.dart';
 import 'package:hm_shop/types/user.dart';
 import 'package:hm_shop/utils/LoadingDialog.dart';
 import 'package:hm_shop/utils/ToastUtils.dart';
-
-import '../../stores/UserController.dart' show UserController;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

@@ -88,7 +88,8 @@ class _HmSliderState extends State<HmSlider> {
   /// 搜索框
   Widget _getSearch() {
     return Positioned(
-      top: 10,
+      // 媒体查询上方安全区的高度
+      top: MediaQuery.of(context).padding.top,
       left: 0,
       right: 0,
       child: Container(
