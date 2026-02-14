@@ -3,6 +3,7 @@ import 'package:hm_shop/types/home.dart';
 
 class HmSuggestion extends StatefulWidget {
   final Product product;
+
   const HmSuggestion({super.key, required this.product});
 
   @override
@@ -64,37 +65,39 @@ class _HmSuggestionState extends State<HmSuggestion> {
   List<Widget> _getChildrenList() {
     return _getDisplayItems()
         .map(
-          (item) => Column(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadiusGeometry.circular(8),
-                child: Image.network(
-                  item.picture,
-                  width: 100,
-                  height: 140,
-                  fit: BoxFit.cover,
-                  // 图片加载失败时的回调
-                  errorBuilder: (context, error, stackTrace) => Image.asset(
-                    "lib/assets/home_cmd_inner.png",
-                    width: 100,
+          (item) => Expanded(
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadiusGeometry.circular(8),
+                  child: Image.network(
+                    item.picture,
+                    // width: 100,
                     height: 140,
                     fit: BoxFit.cover,
+                    // 图片加载失败时的回调
+                    errorBuilder: (context, error, stackTrace) => Image.asset(
+                      "lib/assets/home_cmd_inner.png",
+                      // width: 100,
+                      height: 140,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 240, 96, 12),
-                  borderRadius: BorderRadius.circular(12),
+                SizedBox(height: 10),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 240, 96, 12),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    "¥${item.price}",
+                    style: TextStyle(fontSize: 10, color: Colors.white),
+                  ),
                 ),
-                child: Text(
-                  "¥${item.price}",
-                  style: TextStyle(fontSize: 10, color: Colors.white),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         )
         .toList();
@@ -122,8 +125,10 @@ class _HmSuggestionState extends State<HmSuggestion> {
           Row(
             children: [
               _buildLeft(),
+              SizedBox(width: 10),
               Expanded(
                 child: Row(
+                  spacing: 10,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: _getChildrenList(),
                 ),

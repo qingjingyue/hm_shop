@@ -61,20 +61,24 @@ class _HomeViewState extends State<HomeView> {
 
   // 页码
   int _page = 1;
+
   // 每页数量
   final int _limit = 10;
+
   // 是否正在加载
   bool _isLoading = false;
+
   // 是否还有更多数据
   bool _hasMore = true;
+
   // 获取更多推荐列表
   Future<void> _getRecommendList() async {
     if (_isLoading || !_hasMore) return;
     _isLoading = true;
-    int requestlimit = _page * _limit;
-    _recommendList = await getRecommendListAPI({"limit": requestlimit});
+    int requestLimit = _page * _limit;
+    _recommendList = await getRecommendListAPI({"limit": requestLimit});
     _isLoading = false;
-    if (_recommendList.length < requestlimit) {
+    if (_recommendList.length < requestLimit) {
       _hasMore = false;
       return;
     }
@@ -96,10 +100,10 @@ class _HomeViewState extends State<HomeView> {
     // _getOneStop();
     // // 初始化推荐列表
     // _getRecommendList();
-    // 注册滚动事件
-    _registerEvent();
     // _onRefresh();
     Future.microtask(() => _refreshIndicatorKey.currentState?.show());
+    // 注册滚动事件
+    _registerEvent();
   }
 
   /// 下拉刷新
